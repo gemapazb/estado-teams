@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Estado Teams</title>
+<style>
+  body {
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding-top: 50px;
+    font-size: 3em;
+  }
+  .Disponible { color: green; }
+  .Ocupado { color: red; }
+  .Ausente { color: orange; }
+  .Desconectado { color: gray; }
+</style>
+</head>
+<body>
+<div id="estado">Cargando...</div>
+
+<script>
+async function cargarEstado() {
+  try {
+    const resp = await fetch('estado.txt?_=' + Date.now());
+    const texto = await resp.text();
+    const estado = texto.trim();
+    const div = document.getElementById('estado');
+    div.textContent = estado;
+    div.className = estado.replace(/\s+/g, '');
+  } catch (e) {
+    console.error(e);
+  }
+}
+setInterval(cargarEstado, 5000);
+cargarEstado();
+</script>
+</body>
+</html>
